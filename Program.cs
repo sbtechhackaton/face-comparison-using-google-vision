@@ -98,7 +98,7 @@ namespace GoogleCloudSamples
         {
             LabelDetectionSample sample = new LabelDetectionSample();
             var image1Name = "antoan";
-            var image2Name = "josh2";
+            var image2Name = "antoan5";
 
             string faceOne = @"..\..\bin\Debug\" + image1Name + ".jpg";
             string faceTwo = @"..\..\bin\Debug\" + image2Name + ".jpg";
