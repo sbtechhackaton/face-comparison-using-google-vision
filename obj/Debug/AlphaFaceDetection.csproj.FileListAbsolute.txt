@@ -1,0 +1,3 @@
+C:\Users\milan.d\Desktop\dotnet-docs-samples-master\vision\labelDetection\bin\Debug\LabelDetectionSample.exe.config
+C:\Users\milan.d\Desktop\dotnet-docs-samples-master\vision\labelDetection\obj\Debug\LabelDetectionSample.exe
+C:\Users\milan.d\Desktop\dotnet-docs-samples-master\vision\labelDetection\obj\Debug\LabelDetectionSample.pdb
