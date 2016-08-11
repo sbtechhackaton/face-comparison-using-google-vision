@@ -1,1 +1,1 @@
-# face-comparison-using-google-vision
+# Face comparison application using Google cloud vision api
