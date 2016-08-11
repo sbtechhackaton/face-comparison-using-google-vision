@@ -99,7 +99,7 @@ namespace GoogleCloudSamples
             //    Console.WriteLine(usage);
             //    return;
             //}
-            imagePath =  @"..\..\test\data\cat.jpg";
+            imagePath =  @"../../imgs/jolie.jpg";
             // Create a new Cloud Vision client authorized via Application 
             // Default Credentials
             VisionService vision = sample.CreateAuthorizedClient();
