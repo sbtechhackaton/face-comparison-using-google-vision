@@ -28,15 +28,15 @@ namespace GoogleCloudSamples.FacesComparers
 
             if (sumPerc < 85 && sumPerc > 80)
             {
-                sumPerc = sumPerc - 10;
+                sumPerc = sumPerc - 5;
             }
-            if (sumPerc < 80 && sumPerc > 60)
-            {
-                sumPerc = sumPerc - 20;
-            }
-            if (sumPerc < 60)
+            else if (sumPerc < 80 && sumPerc > 60)
             {
                 sumPerc = sumPerc - 30;
+            }
+            else if (sumPerc < 60)
+            {
+                sumPerc = sumPerc - 40;
             }
 
             Console.WriteLine("The two faces compared to each other: " + string.Concat(sumPerc, "% alike"));
