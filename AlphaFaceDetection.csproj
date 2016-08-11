@@ -125,6 +125,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FacesComparers\FaceData.cs" />
+    <Compile Include="FacesComparers\FacePointComparer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

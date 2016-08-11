@@ -20,8 +20,10 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Vision.v1;
 using Google.Apis.Vision.v1.Data;
+using GoogleCloudSamples.FacesComparers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 // [END import_libraries]
 
@@ -93,35 +95,37 @@ namespace GoogleCloudSamples
         private static void Main(string[] args)
         {
             LabelDetectionSample sample = new LabelDetectionSample();
-            string imagePath;
             //if (args.Length == 0)
             //{
             //    Console.WriteLine(usage);
             //    return;
             //}
-            imagePath =  @"..\..\test\data\cat.jpg";
+            string faceOne = @"..\..\bin\Debug\antoan1.jpg";
+            string faceTwo = @"..\..\bin\Debug\antoan1.jpg";
             // Create a new Cloud Vision client authorized via Application 
             // Default Credentials
             VisionService vision = sample.CreateAuthorizedClient();
             // Use the client to get label annotations for the given image
             // [START parse_response]
-            IList<AnnotateImageResponse> result = sample.DetectLabels(
-                vision, imagePath);
+            IList<AnnotateImageResponse> faceOneResult = sample.DetectLabels(
+                vision, faceOne);
+            IList<AnnotateImageResponse> faceTwoResult = sample.DetectLabels(
+                vision, faceTwo);
+            
+            var firstFaceData = new FaceData(faceOneResult.FirstOrDefault().FaceAnnotations.FirstOrDefault().Landmarks);
+            var secondFaceData = new FaceData(faceTwoResult.FirstOrDefault().FaceAnnotations.FirstOrDefault().Landmarks);
+
+            FacePointComparer.Compare(firstFaceData, secondFaceData);
+
             // Check if label annotations were found
-            if (result != null)
+            if (faceOneResult != null)
             {
-                Console.WriteLine("Labels for image: " + imagePath);
+                Console.WriteLine("Labels for image: " + faceOneResult);
                 // Loop through and output label annotations for the image
-                foreach (var response in result)
+                foreach (var response in faceOneResult)
                 {
                     foreach (var facial in response.FaceAnnotations)
                     {
-                        foreach (var landmark in facial.Landmarks)
-                        {
-                            Console.WriteLine(landmark.Type + " (pos.X:"
-                        + landmark.Position.X + ", position Y:" + landmark.Position.Y+")");
-                        }
-                        
                     }
                 }
             }
