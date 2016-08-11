@@ -100,12 +100,9 @@ namespace GoogleCloudSamples
             //    Console.WriteLine(usage);
             //    return;
             //}
-<<<<<<< HEAD
             string faceOne = @"..\..\bin\Debug\antoan1.jpg";
             string faceTwo = @"..\..\bin\Debug\antoan1.jpg";
-=======
-            imagePath =  @"../../imgs/jolie.jpg";
->>>>>>> 1ca43e5da540fcc59ba41eb9cf9e1b26da6e43b3
+
             // Create a new Cloud Vision client authorized via Application 
             // Default Credentials
             VisionService vision = sample.CreateAuthorizedClient();
