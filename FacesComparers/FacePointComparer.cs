@@ -20,8 +20,15 @@ namespace GoogleCloudSamples.FacesComparers
                 }
 
                 var perc = Math.Min(beautifulFace.distanceRatios[key], antoansFace.distanceRatios[key]) * 100 / Math.Max(beautifulFace.distanceRatios[key], antoansFace.distanceRatios[key]);
-                Console.WriteLine(string.Concat(key, ": ", perc, "%"));
-                blqblq.Add(perc);
+
+                if (perc < 98)
+                {
+                    blqblq.Add(perc);
+                }
+                else
+                {
+                    Console.WriteLine(string.Concat(key, ": ", perc, "%"));
+                }
             }
             var sumPerc = blqblq.Sum() / blqblq.Count;
             Console.WriteLine(string.Concat(sumPerc, "%"));

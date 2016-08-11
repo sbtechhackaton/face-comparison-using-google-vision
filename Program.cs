@@ -23,7 +23,9 @@ using Google.Apis.Vision.v1.Data;
 using GoogleCloudSamples.FacesComparers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Web.Script.Serialization;
 
 // [END import_libraries]
 
@@ -100,43 +102,61 @@ namespace GoogleCloudSamples
             //    Console.WriteLine(usage);
             //    return;
             //}
-            string faceOne = @"..\..\bin\Debug\antoan1.jpg";
-            string faceTwo = @"..\..\bin\Debug\antoan1.jpg";
+            var image1Name = "antoan1";
+            var image2Name = "mangal1";
+
+            string faceOne = @"..\..\bin\Debug\" + image1Name + ".jpg";
+            string faceTwo = @"..\..\bin\Debug\" + image2Name + ".jpg";
 
             // Create a new Cloud Vision client authorized via Application 
             // Default Credentials
             VisionService vision = sample.CreateAuthorizedClient();
             // Use the client to get label annotations for the given image
             // [START parse_response]
-            IList<AnnotateImageResponse> faceOneResult = sample.DetectLabels(
-                vision, faceOne);
-            IList<AnnotateImageResponse> faceTwoResult = sample.DetectLabels(
-                vision, faceTwo);
+
+            IList<Landmark> landmarks1;
+            IList<Landmark> landmarks2;
+
+
+            try
+            {
+                var faceOneSavedResult = File.ReadAllText(image1Name + ".txt");
+                landmarks1 = new JavaScriptSerializer().Deserialize<IList<Landmark>>(faceOneSavedResult);
+            }
+            catch (Exception)
+            {
+                IList<AnnotateImageResponse> faceOneResult = sample.DetectLabels(
+                    vision, faceOne);
+                landmarks1 = faceOneResult.FirstOrDefault().FaceAnnotations.FirstOrDefault().Landmarks;
+
+                var one = new JavaScriptSerializer().Serialize(landmarks1);
+                File.WriteAllText(image1Name + ".txt", one);
+            }
+
+            try
+            {
+                var faceTwoSavedResult = File.ReadAllText(image2Name + ".txt");
+                landmarks2 = new JavaScriptSerializer().Deserialize<IList<Landmark>>(faceTwoSavedResult);
+            }
+            catch (Exception)
+            {
+                IList<AnnotateImageResponse> faceTwoResult = sample.DetectLabels(
+                    vision, faceTwo);
+                landmarks2 = faceTwoResult.FirstOrDefault().FaceAnnotations.FirstOrDefault().Landmarks;
+
+                var two = new JavaScriptSerializer().Serialize(landmarks2);
+                File.WriteAllText(image2Name + ".txt", two);
+            }
             
-            var firstFaceData = new FaceData(faceOneResult.FirstOrDefault().FaceAnnotations.FirstOrDefault().Landmarks);
-            var secondFaceData = new FaceData(faceTwoResult.FirstOrDefault().FaceAnnotations.FirstOrDefault().Landmarks);
+            var firstFaceData = new FaceData(landmarks1);
+            var secondFaceData = new FaceData(landmarks2);
 
             FacePointComparer.Compare(firstFaceData, secondFaceData);
 
-            // Check if label annotations were found
-            if (faceOneResult != null)
-            {
-                Console.WriteLine("Labels for image: " + faceOneResult);
-                // Loop through and output label annotations for the image
-                foreach (var response in faceOneResult)
-                {
-                    foreach (var facial in response.FaceAnnotations)
-                    {
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("No labels found.");
-            }
             // [END parse_response]
             Console.WriteLine("Press any key...");
             Console.ReadKey();
+
         }
         // [END run_application]
     }
